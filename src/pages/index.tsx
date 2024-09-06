@@ -21,8 +21,8 @@ export default function Home() {
   }
 
   return (
-    <div className="flex h-auto min-h-screen px-6 antialiased">
-      <section className="flex w-[75%] flex-col justify-center md:w-[45%]">
+    <div className="flex h-auto min-h-screen flex-col px-6 antialiased lg:flex-row">
+      <section className="flex flex-col justify-center lg:w-[75%]">
         <span className="text-[2rem] font-bold">
           <strong className="text-green-600 dark:text-green-500">
             PersonalPro:
@@ -47,21 +47,30 @@ export default function Home() {
           progresso dos seus alunos. Simplifique sua rotina e ofereça um serviço
           ainda mais profissional com o PersonalPro.
         </p>
-        <div className="mb-2 mt-4 flex flex-row gap-4">
+        <div className="mb-6 mt-8 flex flex-row items-center justify-center gap-4 lg:mb-2 lg:items-center lg:justify-start">
           <Button
             onClick={handleNavigateSignUp}
-            className="bg-green-500 font-bold hover:bg-green-600"
+            size={'lg'}
+            className="bg-green-500 text-base font-bold hover:bg-green-600"
           >
             Criar conta
           </Button>
-          <Button onClick={handleNavigateSignIn} className="font-bold">
+          <Button
+            size={'lg'}
+            onClick={handleNavigateSignIn}
+            className="text-base font-bold"
+          >
             Entrar
           </Button>
         </div>
       </section>
       <div className="m-auto h-auto w-auto">
         <Image src={GroupImage} className="ml-5rem mb-[-10rem]" alt="" />
-        <Image src={FitnessModelsImage} alt="Fitness" />
+        <Image
+          src={FitnessModelsImage}
+          alt="Fitness"
+          className="rounded-xl border-2"
+        />
       </div>
     </div>
   )
