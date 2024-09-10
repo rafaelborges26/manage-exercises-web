@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <div className="flex h-auto min-h-screen flex-col px-6 antialiased lg:flex-row">
-      <section className="flex flex-col justify-center lg:w-[75%]">
+      <section className="flex flex-col justify-center lg:w-[60%]">
         <span className="text-[2rem] font-bold">
           <strong className="text-green-600 dark:text-green-500">
             PersonalPro:
