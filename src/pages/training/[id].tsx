@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -8,6 +9,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { ExerciseProps } from '@/interfaces/exercises'
 
 export default function Training() {
@@ -58,9 +61,22 @@ export default function Training() {
   return (
     <div className="flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4 p-6">
       <Accordion type="multiple" className="w-[100%]">
-        <h5 className="text-base font-bold lg:mb-2 lg:text-2xl">Mês 1</h5>
+        <div className="mb-6 flex flex-row items-center justify-between">
+          <h5 className="text-base font-bold lg:mb-2 lg:text-2xl">Mês 1</h5>
+          <Button
+            size={'lg'}
+            variant="ghost"
+            className="text-base font-bold"
+            type="submit"
+          >
+            Adicionar
+          </Button>
+        </div>
+
         <AccordionItem value="item-1">
-          <AccordionTrigger>Treino A</AccordionTrigger>
+          <AccordionTrigger>
+            <Input value={'Treino A'} className="w-30 border-none" />
+          </AccordionTrigger>
           <AccordionContent>
             <div className="flex flex-col gap-4">
               {exercises.map((exercise) => (

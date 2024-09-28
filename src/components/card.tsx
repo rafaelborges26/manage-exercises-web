@@ -1,5 +1,6 @@
 import { ChevronRight } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { HTMLAttributes } from 'react'
 
 import emptyImage from '@/assets/images/empty.png'
@@ -10,10 +11,15 @@ export interface CardProps extends HTMLAttributes<HTMLButtonElement> {
 }
 
 export function Card({ exercise }: CardProps) {
+  const router = useRouter()
+
   const siglas = 'RB'
 
   return (
-    <button className="mh-[100px] lg:mh-[100px] flex w-[100%] flex-row items-center justify-between rounded-lg bg-slate-100 p-4 dark:bg-slate-900">
+    <button
+      className="mh-[100px] lg:mh-[100px] flex w-[100%] flex-row items-center justify-between rounded-lg bg-slate-100 p-4 dark:bg-slate-900"
+      onClick={() => router.push(`/exercise/${exercise.id}`)}
+    >
       <div className="flex items-center gap-5">
         <Image
           src={exercise.image || emptyImage}
