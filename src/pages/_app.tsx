@@ -8,9 +8,9 @@ import { ThemeProvider } from '@/components/theme/theme-provider'
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider storageKey="pizzashop-theme" defaultTheme="dark">
-      <main>
+      <main className="font-roboto h-[100vh]">
         <Header />
-        <div className="mt-6">
+        <div className="mt-6 flex h-[86%] items-center justify-center">
           <Component {...pageProps} />
         </div>
       </main>

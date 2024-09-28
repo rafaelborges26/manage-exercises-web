@@ -33,16 +33,16 @@ export default function SignUp() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center px-6 antialiased">
-      <h2 className="mb-2 text-3xl font-bold text-green-600 dark:text-green-500 lg:text-4xl">
+    <div className="relative flex h-[100%] max-w-[1240px] flex-col items-center px-6 antialiased">
+      <h2 className="mb-4 text-3xl font-bold text-green-600 dark:text-green-500 lg:text-4xl">
         Criar uma conta
       </h2>
-      <p className="text-center text-sm font-medium text-gray-700 dark:text-gray-400 lg:text-base">
+      <p className="mb-8 text-center text-sm font-medium text-gray-700 dark:text-gray-400 lg:text-base">
         junte-se à nossa comunidade hoje! Crie uma conta para desbloquear
         recursos e experiências personalizadas.
       </p>
 
-      <form onSubmit={handleSubmit(handleSignUp)}>
+      <form onSubmit={handleSubmit(handleSignUp)} className="h-[100%] w-[100%]">
         <div className="w-auto space-y-4 py-4">
           <div className="flex w-auto flex-col gap-6 lg:flex-row">
             <Input
@@ -60,7 +60,7 @@ export default function SignUp() {
             />
           </div>
 
-          <div className="flex w-auto flex-col gap-6 lg:flex-row">
+          <div className="relative bottom-0 mb-6 mt-8 flex flex-col items-center justify-center gap-4 lg:relative lg:bottom-1 lg:mb-2 lg:flex-row lg:items-center lg:justify-center">
             <Input
               {...register('email')}
               id="email"
@@ -74,11 +74,11 @@ export default function SignUp() {
               type="password"
             />
           </div>
-          <div className="mb-6 mt-8 flex flex-row items-center justify-center gap-4 lg:mb-2 lg:items-center lg:justify-center">
+          <div className="absolute bottom-[1rem] left-1 right-1 flex flex-row items-center justify-center gap-4 lg:relative lg:bottom-1 lg:mt-4 lg:items-center lg:justify-center">
             <Button
               type="submit"
               size={'lg'}
-              className="bg-green-500 text-base font-bold hover:bg-green-600"
+              className="w-[90%] bg-green-500 text-base font-bold hover:bg-green-600 lg:w-[20%]"
             >
               Criar conta
             </Button>
