@@ -58,6 +58,8 @@ export default function Training() {
     },
   ]
 
+  const handleAddNewTraining = () => {}
+
   return (
     <div className="flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4 p-6">
       <Accordion type="multiple" className="w-[100%]">
@@ -68,6 +70,7 @@ export default function Training() {
             variant="ghost"
             className="text-base font-bold"
             type="submit"
+            onClick={handleAddNewTraining}
           >
             Adicionar
           </Button>
@@ -80,33 +83,7 @@ export default function Training() {
           <AccordionContent>
             <div className="flex flex-col gap-4">
               {exercises.map((exercise) => (
-                <Card exercise={exercise}>Teste</Card>
-              ))}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
-      <Accordion type="multiple" className="w-[100%]">
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Treino B</AccordionTrigger>
-          <AccordionContent>
-            <div className="flex flex-col gap-4">
-              {exercises.map((exercise) => (
-                <Card exercise={exercise}>Teste</Card>
-              ))}
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-
-      <Accordion type="multiple" className="w-[100%]">
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Treino C</AccordionTrigger>
-          <AccordionContent>
-            <div className="flex flex-col gap-4">
-              {exercises.map((exercise) => (
-                <Card exercise={exercise}>Teste</Card>
+                <Card exercise={exercise} />
               ))}
             </div>
           </AccordionContent>

@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 import { HTMLAttributes } from 'react'
 
 import emptyImage from '@/assets/images/empty.png'
-import { ExerciseProps } from '@/interfaces/exercises'
+import { TrainingProps } from '@/interfaces/exercises'
 
 export interface CardProps extends HTMLAttributes<HTMLButtonElement> {
-  exercise: ExerciseProps
+  exercise: TrainingProps
 }
 
 export function Card({ exercise }: CardProps) {

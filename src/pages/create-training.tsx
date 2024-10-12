@@ -1,43 +1,87 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import emptyImage from '@/assets/images/empty.png'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useTraining } from '@/contexts/TrainingContext'
 
 export default function CreateTraining() {
+  const { createTrainingDispatch } = useTraining()
+
+  const createTrainingSchema = z.object({
+    name: z.string(),
+    image: z.string(),
+    description: z.string().email(),
+    observation: z.string(),
+  })
+
+  type CreateTrainingSchema = z.infer<typeof createTrainingSchema>
+
+  const { register, handleSubmit, getValues, setValue } =
+    useForm<CreateTrainingSchema>({
+      resolver: zodResolver(createTrainingSchema),
+      defaultValues: {
+        name: '',
+        image: '',
+        description: '',
+        observation: '',
+      },
+    })
+
+  console.log(getValues('image'), 'name')
+
   const router = useRouter()
 
-  const [selectedImage, setSelectedImage] = useState('')
+  const [base64Image, setBase64Image] = useState('')
 
   // Função para lidar com a mudança (upload) da imagem
-  const handleImageChange = (event) => {
-    const file = event.target.files[0] // Pega o primeiro arquivo
-    if (file && file.type.startsWith('image/')) {
-      // Gera uma URL temporária para exibir a imagem
-      setSelectedImage(URL.createObjectURL(file))
-    } else {
-      alert('Por favor, selecione um arquivo de imagem.')
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] // Obtém o arquivo
+    const reader = new FileReader() // Instancia o FileReader
+
+    reader.onloadend = () => {
+      const imageBase64 = reader.result as string
+      setBase64Image(imageBase64) // Define a imagem codificada como base64
+      setValue('image', imageBase64)
     }
+
+    if (file) {
+      reader.readAsDataURL(file) // Converte a imagem para Base64
+    }
+  }
+
+  const handleCreateTraining = () => {
+    console.log('data')
+
+    createTrainingDispatch({
+      description: getValues('description'),
+      name: getValues('name'),
+      image: getValues('image'),
+      id: new Date().toISOString(),
+    })
+
+    router.push('create-exercise')
   }
 
   return (
     <div className="relative flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4">
       <div className="flex w-[100%] flex-col items-start justify-center gap-5 p-6 lg:w-[70%]">
         <div className="lg:flex lg:w-[100%] lg:items-center lg:justify-start">
-          <Input placeholder="Digite o nome do Treino" />
+          <Input {...register('name')} placeholder="Digite o nome do Treino" />
         </div>
 
-        {/* Input para upload de arquivo */}
-        {/* Div com a imagem placeholder ou a imagem carregada */}
         <div className="flex w-[100%] items-center">
           <label
             htmlFor="file-input"
             className="flex w-[100%] items-center justify-center"
           >
             <Image
-              src={selectedImage || emptyImage} // Mostra a imagem selecionada ou o placeholder
+              src={base64Image || emptyImage}
               alt="Placeholder"
               width={240}
               height={300}
@@ -47,31 +91,38 @@ export default function CreateTraining() {
         </div>
 
         <input
+          {...register('image')}
           id="file-input"
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={handleImageChange}
+          onChange={handleImageUpload}
         />
 
-        <form className="flex w-[100%] flex-col gap-4 lg:mt-4">
+        <div className="flex w-[100%] flex-col gap-4 lg:mt-4">
           <div className="flex flex-col gap-2">
             <p>Descrição:</p>
-            <Input id="email" placeholder="Digite a descrição do treino" />
+            <Input
+              {...register('description')}
+              id="description"
+              placeholder="Digite a descrição do treino"
+            />
           </div>
           <div className="flex flex-col gap-2">
             <p>Observações importantes:</p>
             <Input
-              id="email"
+              {...register('observation')}
+              id="observation"
               placeholder="Digite informações importantes sobre o treino"
             />
           </div>
-        </form>
-        <div className="absolute bottom-[1rem] flex w-[88%] lg:mt-0">
+        </div>
+        <div className="absolute bottom-[1rem] flex w-[88%] lg:relative lg:mt-4">
           <Button
             size={'lg'}
-            className="w-[100%] bg-green-500 text-base font-bold hover:bg-green-600 lg:w-44"
-            onClick={() => router.push('training/1')}
+            className="w-[100%] text-base font-bold transition-colors hover:bg-slate-700 dark:hover:bg-slate-300 lg:w-44"
+            type="button"
+            onClick={handleCreateTraining}
           >
             Pronto
           </Button>

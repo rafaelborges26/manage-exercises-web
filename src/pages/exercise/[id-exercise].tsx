@@ -33,8 +33,6 @@ export default function Product() {
     ],
   }
 
-  // console.log(JSON.stringify(query))
-
   return (
     <div className="flex h-[100%] w-[100%] max-w-[1240px] flex-col gap-4 px-6 lg:gap-8">
       <div className="flex items-center justify-between">
@@ -68,8 +66,10 @@ export default function Product() {
         />
       </div>
 
-      {exercise.series.map((serie) => (
+      {exercise.series.map((serie, index) => (
         <ExecutionQuantity
+          key={index.toString()}
+          id={String(index)}
           currentSeries={serie.currentSeries}
           repetition={serie.repetition}
           weight={serie.repetition}
