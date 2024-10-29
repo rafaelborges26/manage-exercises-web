@@ -17,6 +17,6 @@ export interface ExerciseSeriesProps {
 export interface TrainingProps {
   id: string
   name: string
-  description: string
-  image?: string
+  type?: string
+  sessions?: number
 }

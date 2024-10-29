@@ -11,7 +11,7 @@ export const InitialValuesSeries: SeriesProps = {
 }
 
 export const initialValuesExercise: ExerciseSeriesProps = {
-  id: '0',
+  id: '',
   name: '',
   image: '',
   series: [InitialValuesSeries],
@@ -19,8 +19,8 @@ export const initialValuesExercise: ExerciseSeriesProps = {
 }
 
 export const InitialValuesTraining: TrainingProps = {
-  description: '',
   id: '',
   name: '',
-  image: '',
+  type: '',
+  sessions: 0,
 }

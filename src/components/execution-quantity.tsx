@@ -31,11 +31,11 @@ export function ExecutionQuantity({
 
   return (
     <div className="flex w-auto flex-row items-center justify-between rounded-lg bg-gray-100 px-4 dark:bg-zinc-900">
-      <span className="flex w-[30%] items-center justify-center p-6 text-2xl lg:text-3xl lg:font-medium">
+      <span className="flex w-[30%] items-center justify-center p-4 text-2xl lg:p-6 lg:text-3xl lg:font-medium">
         {currentSeries}
       </span>
       <Separator orientation="vertical" />
-      <div className="flex w-[30%] flex-col items-center justify-center p-6 font-medium">
+      <div className="flex w-[30%] flex-col items-center justify-center p-4 font-medium lg:p-6">
         <Input
           className="w-16 border-b border-solid border-b-gray-100 bg-transparent text-center text-2xl font-medium lg:w-[5.5rem] lg:text-3xl"
           id="repetiçoes"
@@ -56,6 +56,7 @@ export function ExecutionQuantity({
           value={weightUpdated}
           aria-autocomplete="none"
           type="number"
+          min={1}
           onChange={(e) => setWeightUpdated(Number(e.target.value))}
           onBlur={handleUpdateSeries}
         />

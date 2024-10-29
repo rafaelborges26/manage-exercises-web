@@ -15,10 +15,17 @@ export function Header() {
 
   function handleNavigateSignIn() {
     router.push('/sign-in')
+    setIsOpenMenu(!isOpenMenu)
   }
 
   function handleNavigateSignUp() {
     router.push('/sign-up')
+    setIsOpenMenu(!isOpenMenu)
+  }
+
+  function handleNavigateCreateTraining() {
+    router.push('/create-training')
+    setIsOpenMenu(!isOpenMenu)
   }
 
   const handleClickAvatar = () => {
@@ -36,13 +43,18 @@ export function Header() {
             <AvatarMenu handleClick={handleClickAvatar} />
             {isOpenMenu && (
               <div className="absolute bottom-0 right-1 top-14 flex flex-col gap-2">
-                <Button aria-label="Perfil">
+                <Button aria-label="Perfil" className="z-10">
                   <UserPen size={'24'} />
                 </Button>
-                <Button variant={'default'} aria-label="Treinos">
+                <Button
+                  onClick={handleNavigateCreateTraining}
+                  variant={'default'}
+                  aria-label="Treinos"
+                  className="z-10"
+                >
                   <Dumbbell size={'24'} />
                 </Button>
-                <Button variant={'default'} aria-label="Sair">
+                <Button variant={'default'} aria-label="Sair" className="z-10">
                   <LogOut size={'24'} />
                 </Button>
               </div>

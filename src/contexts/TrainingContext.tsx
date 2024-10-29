@@ -27,21 +27,19 @@ const TrainingContext = createContext({} as TypeTrainingContext)
 
 export function TrainingProvider({ children }: TypePropsAccompaniment) {
   const [training, setTraining] = useState<TrainingProps>(InitialValuesTraining)
-  const [exercises, setExercises] = useState<ExerciseSeriesProps[]>([
-    initialValuesExercise,
-  ])
+  const [exercises, setExercises] = useState<ExerciseSeriesProps[]>([])
 
   const createTrainingDispatch = ({
     id,
     name,
-    description,
-    image,
+    type,
+    sessions,
   }: TrainingProps) => {
     setTraining({
       id,
       name,
-      description,
-      image,
+      type,
+      sessions,
     })
   }
 
@@ -52,21 +50,10 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
     series,
     idTraining,
   }: ExerciseSeriesProps) => {
-    if (idTraining === training.id) {
-      setExercises((prev) => [
-        ...prev,
-        {
-          id,
-          name,
-          image,
-          series,
-          idTraining,
-        },
-      ])
-      return
-    }
+    console.log(id, name, series, idTraining, 'data arrived')
 
-    setExercises([
+    setExercises((prev) => [
+      ...prev,
       {
         id,
         name,

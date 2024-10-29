@@ -1,5 +1,6 @@
 import { Plus } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import { Card } from '@/components/card'
@@ -11,9 +12,14 @@ import {
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ExerciseProps } from '@/interfaces/exercises'
+import { useTraining } from '@/contexts/TrainingContext'
+import { ExerciseSeriesProps } from '@/interfaces/exercises'
 
 export default function Training() {
+  const router = useRouter()
+  const { training, exercises } = useTraining()
+
+  /*
   const exercises: ExerciseProps[] = [
     {
       id: '1',
@@ -57,14 +63,19 @@ export default function Training() {
       ],
     },
   ]
+*/
 
-  const handleAddNewTraining = () => {}
+  const handleAddNewTraining = () => {
+    router.push('create-exercise')
+  }
 
   return (
     <div className="flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4 p-6">
       <Accordion type="multiple" className="w-[100%]">
         <div className="mb-6 flex flex-row items-center justify-between">
-          <h5 className="text-base font-bold lg:mb-2 lg:text-2xl">Mês 1</h5>
+          <h5 className="text-base font-bold lg:mb-2 lg:text-2xl">
+            {training.name}
+          </h5>
           <Button
             size={'lg'}
             variant="ghost"
@@ -83,7 +94,7 @@ export default function Training() {
           <AccordionContent>
             <div className="flex flex-col gap-4">
               {exercises.map((exercise) => (
-                <Card exercise={exercise} />
+                <Card exercise={exercise} key={exercise.id} />
               ))}
             </div>
           </AccordionContent>

@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 import { HTMLAttributes } from 'react'
 
 import emptyImage from '@/assets/images/empty.png'
-import { TrainingProps } from '@/interfaces/exercises'
+import { ExerciseSeriesProps, TrainingProps } from '@/interfaces/exercises'
 
 export interface CardProps extends HTMLAttributes<HTMLButtonElement> {
-  exercise: TrainingProps
+  exercise: ExerciseSeriesProps
 }
 
 export function Card({ exercise }: CardProps) {
@@ -25,10 +25,11 @@ export function Card({ exercise }: CardProps) {
           src={exercise.image || emptyImage}
           width={150}
           height={150}
+          unoptimized
           alt={
             exercise.image
-              ? exercise.image
-              : `Sem conteúdo imagem para o exercício ${exercise.name}`
+              ? exercise.name
+              : `Sem conteúdo imagem para o exercício`
           }
           className="h-[150px] w-[150px] rounded-3xl lg:h-[200px] lg:w-[200px]"
         />
@@ -39,7 +40,10 @@ export function Card({ exercise }: CardProps) {
           </h5>
           <div className="flex h-32 flex-col flex-wrap items-start gap-x-6 lg:gap-y-1">
             {exercise.series.map((exercise) => (
-              <p className="text-base font-normal text-muted-foreground">{`${exercise.currentSeries} • ${exercise.repetition}`}</p>
+              <p
+                key={exercise.currentSeries}
+                className="text-base font-normal text-muted-foreground"
+              >{`${exercise.currentSeries} • ${exercise.repetition}`}</p>
             ))}
           </div>
         </div>
