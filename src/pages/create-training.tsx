@@ -1,11 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import Image from 'next/image'
+import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import emptyImage from '@/assets/images/empty.png'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -28,15 +27,16 @@ export default function CreateTraining() {
 
   type CreateTrainingSchema = z.infer<typeof createTrainingSchema>
 
-  const { register, handleSubmit, getValues, setValue } =
-    useForm<CreateTrainingSchema>({
-      resolver: zodResolver(createTrainingSchema),
-      defaultValues: {
-        name: '',
-        sessions: 0,
-        type: '',
-      },
-    })
+  const [selectedType, setSelectedType] = useState('01')
+
+  const { register, getValues, setValue } = useForm<CreateTrainingSchema>({
+    resolver: zodResolver(createTrainingSchema),
+    defaultValues: {
+      name: '',
+      sessions: 0,
+      type: '',
+    },
+  })
 
   const router = useRouter()
 
@@ -50,16 +50,23 @@ export default function CreateTraining() {
       id: new Date().toISOString(),
     })
 
-    router.push('create-exercise')
+    router.push('list-exercise')
   }
+
+  useEffect(() => {
+    setValue('type', selectedType)
+  }, [getValues('type')])
 
   return (
     <div className="relative flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4">
       <div className="flex w-[100%] flex-col items-start justify-center gap-5 p-6 lg:w-[70%]">
         <div className="flex w-[100%] flex-col gap-4 lg:mt-4">
-          <h1 className="mb-4 text-3xl font-bold tracking-tight">
-            Montar treino
-          </h1>
+          <div className="relative flex items-center justify-center">
+            <button className="absolute bottom-0 left-2 top-0 border-none bg-transparent">
+              <ArrowLeft size={24} />
+            </button>
+            <h1 className="text-3xl font-bold tracking-tight">Montar treino</h1>
+          </div>
           <div className="flex flex-col gap-2">
             <p>Nome</p>
             <Input {...register('name')} placeholder="Treino A" />
@@ -68,7 +75,7 @@ export default function CreateTraining() {
           <div className="flex flex-col gap-4 lg:flex-row">
             <div className="flex w-[100%] flex-col gap-2 lg:w-[50%]">
               <p>Tipo</p>
-              <Select>
+              <Select onValueChange={setSelectedType} value={selectedType}>
                 <SelectTrigger>
                   <SelectValue placeholder="Hipertrofia" />
                 </SelectTrigger>
