@@ -2,32 +2,21 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import emptyImage from '@/assets/images/empty.png'
-import MultiSelect, { MultiSelectProps } from '@/components/multiselect'
+import { MultiSelect, OptionsProps } from '@/components/multiselect'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Routes } from '@/constants/routes'
 import { useTraining } from '@/contexts/TrainingContext'
+import { ExercisesResponse } from '@/models/exercises'
+import { api } from '@/services/api'
 
-export interface SelectOptionsProps {
-  idExercise: string
-  nameExercise: string
-}
-
-export default function ListExercise() {
-  const { createTrainingDispatch } = useTraining()
-
+export default function ChooseExercises() {
   const listExerciseSchema = z.object({
     training: z.string(),
     type: z.string(),
@@ -35,7 +24,14 @@ export default function ListExercise() {
 
   type ListExerciseSchema = z.infer<typeof listExerciseSchema>
 
+  const router = useRouter()
+
   const [selectedType, setSelectedType] = useState('01')
+  const { exercises, deleteExerciseDispatch, selectExercise } = useTraining()
+
+  const [exercisesFiltered, setExercisesFiltered] = useState<
+    ExercisesResponse[]
+  >([])
 
   const { register, getValues, setValue } = useForm<ListExerciseSchema>({
     resolver: zodResolver(listExerciseSchema),
@@ -45,25 +41,59 @@ export default function ListExercise() {
     },
   })
 
-  const router = useRouter()
+  const exercisesOptions = useMemo(() => {
+    const options = exercisesFiltered.map(
+      ({ muscleGroup, ...exerciseOption }) => exerciseOption,
+    )
+
+    return options
+  }, [exercisesFiltered])
 
   const backPageCreateTraining = () => {
     router.push('create-training')
   }
-  const options: SelectOptionsProps[] = [
-    {
-      idExercise: '0',
-      nameExercise: 'supino maquina',
-    },
-    {
-      idExercise: '1',
-      nameExercise: 'supino reto',
-    },
-    {
-      idExercise: '2',
-      nameExercise: 'supino inclina',
-    },
-  ]
+
+  const optionsSelected: OptionsProps[] = useMemo(() => {
+    const exerciseFiltered: OptionsProps[] = exercises.map((exercise) => ({
+      id: exercise.id,
+      name: exercise.name,
+    }))
+
+    return exerciseFiltered
+  }, [exercises])
+
+  const handleNavigateExerciseDetail = (id: string) => {
+    selectExercise(id)
+    router.push(`/selection-exercise/${id}`)
+  }
+
+  const handleRemoveExercise = (idExercise: string) => {
+    deleteExerciseDispatch(idExercise)
+  }
+
+  const getExerciseByMuscleGroup = async (muscleGroup: string) => {
+    console.log(muscleGroup, 'muscleGroup input')
+    try {
+      const { data } = await api.get<ExercisesResponse[]>(
+        `api/${Routes.exercises}`,
+        {
+          params: {
+            muscleGroup,
+          },
+        },
+      )
+      setExercisesFiltered(data)
+      console.log(data)
+    } catch (err) {
+      // setError('Erro ao carregar exercício')
+    } finally {
+      // setLoading(false)
+    }
+  }
+
+  const handleConclude = () => {
+    router.push('/resume-training')
+  }
 
   useEffect(() => {
     setValue('type', selectedType)
@@ -85,14 +115,25 @@ export default function ListExercise() {
             </h1>
           </div>
           <div className="flex flex-col gap-2">
-            <p>Nome</p>
-            <Input {...register('training')} placeholder="Perna" />
+            <p>Treino</p>
+            <Input
+              {...register('training')}
+              placeholder="Informe o grupo muscular"
+              onBlur={(e) => {
+                getExerciseByMuscleGroup(e.target.value)
+              }}
+            />
           </div>
 
           <div className="flex flex-col gap-4">
             <div className="flex w-[100%] flex-col gap-2">
-              <p>Tipo</p>
-              <MultiSelect options={options} />
+              <p>Exercício</p>
+              <MultiSelect
+                options={exercisesOptions}
+                optionsSelected={optionsSelected}
+                buttonOnClick={handleNavigateExerciseDetail}
+                buttonRemove={handleRemoveExercise}
+              />
             </div>
           </div>
         </div>
@@ -101,6 +142,7 @@ export default function ListExercise() {
             size={'lg'}
             className="w-[100%] text-base font-bold transition-colors hover:bg-slate-700 dark:hover:bg-slate-300 lg:w-44"
             type="button"
+            onClick={handleConclude}
           >
             Pronto
           </Button>

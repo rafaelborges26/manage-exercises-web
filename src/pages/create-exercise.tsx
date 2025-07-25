@@ -17,17 +17,20 @@ import {
 
 export default function CreateExercise() {
   const router = useRouter()
-  const { createExerciseDispatch, training } = useTraining()
 
-  const [exercises, setExercises] = useState<ExerciseSeriesProps>(
+  const { createExercisesDispatch, training, exercise } = useTraining()
+
+  const [exerciseFilled, setExerciseFilled] = useState<ExerciseSeriesProps>(
     initialValuesExercise,
   )
 
-  const [seriesSelected, setSeriesSelected] = useState<SeriesProps[]>(
-    exercises.series,
-  )
+  const [seriesSelected, setSeriesSelected] = useState<SeriesProps[]>([
+    InitialValuesSeries,
+  ])
 
-  console.log(exercises, 'exercises na page')
+  console.log(seriesSelected, 'seriesSelected')
+
+  console.log(exercise, 'exercises na page')
 
   const [screenHeight, setScreenHeight] = useState(0)
 
@@ -37,7 +40,7 @@ export default function CreateExercise() {
 
     reader.onloadend = () => {
       const imageBase64 = reader.result as string
-      setExercises((prev) => ({
+      setExerciseFilled((prev) => ({
         ...prev,
         image: imageBase64,
       }))
@@ -50,25 +53,27 @@ export default function CreateExercise() {
 
   const handleCreateNewExercise = () => {
     updateExercise()
-    resetForm()
+    router.push('choose-exercises')
+    // resetForm()
   }
 
-  const resetForm = () => {
-    setExercises(initialValuesExercise)
-    setSeriesSelected(initialValuesExercise.series)
-  }
+  // const resetForm = () => {
+  //  setExercises(initialValuesExercise)
+  //  setSeriesSelected(initialValuesExercise.series)
+  // }
 
   const updateExercise = () => {
     const newExercise: ExerciseSeriesProps = {
-      id: new Date().toISOString(),
+      id: exercise.id,
       idTraining: training.id,
       series: seriesSelected,
-      name: exercises.name,
-      image: exercises.name,
+      name: exercise.name,
+      muscleGroup: exercise.muscleGroup,
+      image: exercise.image,
     }
 
-    setExercises(newExercise)
-    createExerciseDispatch(newExercise)
+    setExerciseFilled(newExercise)
+    createExercisesDispatch(newExercise)
   }
 
   const handleNavigateTraining = () => {
@@ -87,22 +92,20 @@ export default function CreateExercise() {
     }
   }, [])
 
-  useEffect(() => {
-    console.log(exercises, 'exercises page')
-  }, [exercises.series])
-
   return (
     <div className="relative flex h-[100%] w-[100%] max-w-[1240px] flex-col gap-4 px-6 lg:gap-2">
       <div className="mb-2 flex items-center justify-between gap-2">
         <Input
           className="flex w-[80%] justify-between text-xl font-semibold lg:h-10 lg:py-6"
           placeholder="Exercicio"
-          value={exercises.name}
+          value={exercise.name}
+          disabled
           onChange={(e) => {
-            setExercises((prev) => ({
+            setExerciseFilled((prev) => ({
               ...prev,
               name: e.target.value,
             }))
+            console.log('test')
           }}
         />
         <button onClick={handleNavigateTraining}>
@@ -117,10 +120,10 @@ export default function CreateExercise() {
             className="flex items-center justify-center"
           >
             <Image
-              src={exercises.image || emptyImage}
+              src={exerciseFilled.image || exercise.image || emptyImage}
               alt={
-                exercises.image ||
-                `Sem conteúdo imagem para o exercício exercicio nome`
+                exerciseFilled.image ||
+                `Sem conteúdo imagem para o exercício exercicio ${exercise.name}`
               }
               width={300}
               height={300}

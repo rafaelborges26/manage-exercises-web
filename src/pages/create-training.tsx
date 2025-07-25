@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { TypeTraining, typeTraining } from '@/constants'
 import { useTraining } from '@/contexts/TrainingContext'
 
 export default function CreateTraining() {
@@ -29,7 +30,7 @@ export default function CreateTraining() {
 
   const [selectedType, setSelectedType] = useState('01')
 
-  const { register, getValues, setValue } = useForm<CreateTrainingSchema>({
+  const { register, getValues, setValue, watch } = useForm<CreateTrainingSchema>({
     resolver: zodResolver(createTrainingSchema),
     defaultValues: {
       name: '',
@@ -50,12 +51,15 @@ export default function CreateTraining() {
       id: new Date().toISOString(),
     })
 
-    router.push('list-exercise')
+    router.push('choose-exercises')
   }
 
   useEffect(() => {
     setValue('type', selectedType)
   }, [getValues('type')])
+
+  console.log(getValues('type'), 'type getvalue')
+  console.log(watch('type'), 'type watch')
 
   return (
     <div className="relative flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4">
@@ -79,10 +83,12 @@ export default function CreateTraining() {
                 <SelectTrigger>
                   <SelectValue placeholder="Hipertrofia" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="01">Hipertrofia</SelectItem>
-                  <SelectItem value="02">Emagrecimento</SelectItem>
-                  <SelectItem value="03">Cardio</SelectItem>
+                <SelectContent className="max-h-40">
+                  {typeTraining.map((type) => (
+                    <SelectItem key={type.id} value={type.name} >
+                      {type.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

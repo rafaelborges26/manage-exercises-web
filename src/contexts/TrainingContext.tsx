@@ -3,6 +3,7 @@ import { createContext, type ReactNode, useContext, useState } from 'react'
 import {
   ExerciseSeriesProps,
   SeriesProps,
+  TrainingExercise,
   TrainingProps,
 } from '@/interfaces/exercises'
 import {
@@ -10,13 +11,16 @@ import {
   InitialValuesTraining,
 } from '@/utils/initialValues'
 
-// import { initialAllStoresGroup } from '../utils/initialValues'
-
 type TypeTrainingContext = {
   training: TrainingProps
+  exercise: ExerciseSeriesProps
   exercises: ExerciseSeriesProps[]
   createTrainingDispatch: (data: TrainingProps) => void
   createExerciseDispatch: (data: ExerciseSeriesProps) => void
+  createExercisesDispatch: (data: ExerciseSeriesProps) => void
+  deleteExerciseDispatch: (idExercise: string) => void
+  selectExercise: (idExercise: string) => void
+  addNewTrainingExercise: () => void
 }
 
 type TypePropsAccompaniment = {
@@ -27,7 +31,13 @@ const TrainingContext = createContext({} as TypeTrainingContext)
 
 export function TrainingProvider({ children }: TypePropsAccompaniment) {
   const [training, setTraining] = useState<TrainingProps>(InitialValuesTraining)
+  
+  const [exercise, setExercise] = useState<ExerciseSeriesProps>(
+    initialValuesExercise,
+  )
   const [exercises, setExercises] = useState<ExerciseSeriesProps[]>([])
+
+  const [trainingsExercises, setTrainingsExercises] = useState<TrainingExercise[]>([])
 
   const createTrainingDispatch = ({
     id,
@@ -46,6 +56,27 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
   const createExerciseDispatch = ({
     id,
     name,
+    muscleGroup,
+    image,
+    series,
+    idTraining,
+  }: ExerciseSeriesProps) => {
+    console.log(id, name, series, idTraining, 'data arrived')
+
+    setExercise({
+      id,
+      name,
+      muscleGroup,
+      image,
+      series,
+      idTraining,
+    })
+  }
+
+  const createExercisesDispatch = ({
+    id,
+    name,
+    muscleGroup,
     image,
     series,
     idTraining,
@@ -57,6 +88,7 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
       {
         id,
         name,
+        muscleGroup,
         image,
         series,
         idTraining,
@@ -64,13 +96,50 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
     ])
   }
 
+  const deleteExerciseDispatch = (idExercise: string) => {
+    const newExercise = exercises.filter((ex) => ex.id !== idExercise)
+
+    setExercises(newExercise)
+  }
+
+  const selectExercise = (idExercise: string) => {
+    const exerciseFound = exercises.find((ex) => ex.id === idExercise)
+
+    if (exerciseFound) {
+      setExercise(exerciseFound)
+    }
+  }
+
+  const addNewTrainingExercise = () => {
+    setTrainingsExercises((prev) => [
+      ...prev,
+      {
+        exercises: exercises,
+        trainingDetails: training
+      }
+    ])
+
+    resetValues()
+  }
+
+  const resetValues = () => {
+    setTraining(InitialValuesTraining)
+    setExercise(initialValuesExercise)
+    setExercises([])
+  }
+
   return (
     <TrainingContext.Provider
       value={{
         training,
+        exercise,
         exercises,
         createTrainingDispatch,
         createExerciseDispatch,
+        createExercisesDispatch,
+        deleteExerciseDispatch,
+        selectExercise,
+        addNewTrainingExercise,
       }}
     >
       {children}

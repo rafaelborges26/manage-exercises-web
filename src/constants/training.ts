@@ -1,0 +1,18 @@
+export const typeTraining = [
+  { id: 'HYPERTROPHY', name: 'Hipertrofia' },
+  { id: 'WEIGHT_LOSS', name: 'Emagrecimento' },
+  { id: 'FUNCTIONAL', name: 'Treinamento Funcional' },
+  { id: 'STRENGTH', name: 'Força' },
+  { id: 'ENDURANCE', name: 'Resistência' },
+  { id: 'FLEXIBILITY', name: 'Flexibilidade' },
+  { id: 'POWER', name: 'Potência' },
+  { id: 'AEROBIC', name: 'Aeróbico' },
+  { id: 'ANAEROBIC', name: 'Anaeróbico' },
+  { id: 'HIIT', name: 'Treinamento Intervalado de Alta Intensidade (HIIT)' },
+  { id: 'CROSSFIT', name: 'CrossFit' },
+  { id: 'BODYWEIGHT', name: 'Treinamento com Peso Corporal' },
+  { id: 'REHABILITATION', name: 'Reabilitação / Pós-lesão' },
+  { id: 'POSTURAL', name: 'Treinamento Postural' },
+  { id: 'MOBILITY', name: 'Mobilidade' },
+  { id: 'PERFORMANCE', name: 'Desempenho Esportivo' },
+] as const

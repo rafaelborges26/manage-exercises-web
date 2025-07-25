@@ -12,6 +12,7 @@ export interface ExerciseSeriesProps {
   image: string
   series: SeriesProps[]
   idTraining: string
+  muscleGroup: string
 }
 
 export interface TrainingProps {
@@ -19,4 +20,9 @@ export interface TrainingProps {
   name: string
   type?: string
   sessions?: number
+}
+
+export interface TrainingExercise {
+  trainingDetails: TrainingProps,
+  exercises: ExerciseSeriesProps[]
 }

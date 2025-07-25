@@ -69,7 +69,7 @@ export default function Product() {
       {exercise.series.map((serie, index) => (
         <ExecutionQuantity
           key={index.toString()}
-          id={String(index)}
+          id={index.toString()}
           currentSeries={serie.currentSeries}
           repetition={serie.repetition}
           weight={serie.repetition}

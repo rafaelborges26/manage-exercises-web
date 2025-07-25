@@ -30,7 +30,6 @@ export default function SignUp() {
 
   const handleSignUp = ({ email, lastname, name, password }: SignUpSchema) => {
     console.log(name, lastname, email, password, 'data test')
-    console.log(errors, 'errors')
   }
 
   return (
