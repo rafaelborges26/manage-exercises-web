@@ -17,7 +17,7 @@ export function Card({ exercise }: CardProps) {
 
   return (
     <button
-      className="mh-[100px] lg:mh-[100px] flex w-[100%] flex-row items-center justify-between rounded-lg bg-slate-100 p-4 dark:bg-slate-900"
+      className=" flex w-[100%] flex-row items-center justify-between rounded-lg bg-slate-100 p-4 dark:bg-slate-900"
       onClick={() => router.push(`/exercise/${exercise.id}`)}
     >
       <div className="flex items-center gap-5">

@@ -8,6 +8,7 @@ import { AvatarMenu } from './avatar-menu'
 import { ExecutionQuantity } from './execution-quantity'
 import { ThemeToggle } from './theme/theme-toggle'
 import { Button } from './ui/button'
+import { setScroll } from '@/utils/scrollTo'
 
 export interface SeriesExecutionProps {
   series: SeriesProps[]
@@ -41,7 +42,7 @@ export function SeriesExecution({ series, setSeries }: SeriesExecutionProps) {
       },
     ])
 
-    // scrollTo(screenHeight)
+    setScroll(100)
   }
 
   console.log(series, 'seriesSelected')

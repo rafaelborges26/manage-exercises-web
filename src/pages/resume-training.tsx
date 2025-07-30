@@ -16,6 +16,7 @@ import { useTraining } from '@/contexts/TrainingContext'
 import { ExercisesResponse } from '@/models/exercises'
 import { api } from '@/services/api'
 import { SeriesProps } from '@/interfaces/exercises'
+import { Stepper } from '@/components/stepper'
 
 interface RepetitionsProps {
   max: number, min: number
@@ -25,10 +26,6 @@ export default function ChooseExercises() {
   const router = useRouter()
 
   const { exercises, training, addNewTrainingExercise } = useTraining()
-
-  const backPageCreateTraining = () => {
-    router.push('create-training')
-  }
 
   const formatSeries = useCallback((series: SeriesProps[]) => {
 
@@ -58,76 +55,80 @@ export default function ChooseExercises() {
 
   const addTrainingExercise = () => {
     addNewTrainingExercise()
+    router.push('create-training')
+  }
+
+  const handleConclude = () => {
+    addNewTrainingExercise()
+    router.push('home')
   }
 
   return (
-    <div className="relative flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4">
-      <div className="flex w-[100%] flex-col items-start justify-center gap-5 p-6 lg:w-[70%]">
-        <div className="flex w-[100%] flex-col gap-4 lg:mt-4">
-          <div className="relative flex items-center justify-center">
-            <button
-              onClick={() => {}}
-              className="absolute bottom-0 left-2 top-0 border-none bg-transparent"
+    <div className="relative flex h-full w-full max-w-[1240px] flex-col items-center px-4">
+  <div className="w-full lg:w-[70%] flex flex-col gap-6 pb-2">
+
+    {/* Cabeçalho */}
+    <div className="flex items-center justify-between w-full">
+      <button
+        onClick={() => {}}
+        className="text-gray-500 hover:text-black dark:hover:text-white"
+      >
+        <ArrowLeft size={24} />
+      </button>
+      <h1 className="text-xl font-bold text-center flex-1">Revisar treino</h1>
+      <div className="w-6" /> {/* espaço para equilibrar visualmente */}
+    </div>
+
+    {/* Etapa do processo */}
+    <Stepper step={3} total={3} label="Passo 3 de 3" />
+
+    {/* Bloco principal */}
+    <div className="flex flex-col gap-4">
+      <h2 className="text-2xl font-bold text-gray-900">{training.name}</h2>
+
+      <p className="text-sm text-gray-700">
+        <span className="font-medium">Finalidade:</span> {training.type}
+      </p>
+
+      {/* Lista de Exercícios */}
+      <div className="flex flex-col gap-3">
+        <h3 className="text-xl font-semibold text-gray-800">Exercícios:</h3>
+        <ul className="flex flex-col gap-4 overflow-y-scroll">
+          {exercises.map((exercise) => (
+            <li
+              key={exercise.id}
+              className="flex flex-col gap-1 border rounded-xl p-3 shadow-sm bg-white"
             >
-              <ArrowLeft size={24} />
-            </button>
-            <h1 className="inline-flex justify-center text-3xl font-bold tracking-tight">
-              Revisar exercicios
-            </h1>
-          </div>
-
-          <div>
-            <h6 className="mb-2 text-2xl font-semibold tracking-tight">
-              {training.name}
-            </h6>
-
-            <div className="mb-4 flex flex-row gap-1">
-              <p>Finalidade:</p>
-              <span>{training.type}</span>
-            </div>
-
-            <h2 className="mb-2 text-xl font-semibold text-gray-800">
-              Exercícios:
-            </h2>
-
-            <div className="p-1">
-              <ul className="flex flex-col gap-2 space-y-2 text-gray-700">
-                {exercises.map((exercise) => (
-                  <li key={exercise.id}>
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-semibold">{exercise.name}</h3>
-                      </div>
-                      <Badge variant="outline">{exercise.muscleGroup}</Badge>
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {formatSeries(exercise.series)}
-                    </div>
-                  </li>
-                ))}
-                </ul>
-
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-4 left-0 w-full px-4 flex justify-between gap-4 lg:static lg:mt-6">
-  <Button
-    size="lg"
-    className="flex-1 lg:w-44 bg-white text-green-600 border border-green-600 hover:bg-green-50 font-semibold rounded-xl py-3 text-base transition"
-    type="button"
-  >
-    Adicionar outro treino
-  </Button>
-  <Button
-    size="lg"
-    className="flex-1 lg:w-44 bg-green-600 text-white hover:bg-green-700 font-semibold rounded-xl py-3 text-base transition"
-    type="button"
-    onClick={addTrainingExercise}
-  >
-    Concluir
-  </Button>
-</div>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-base">{exercise.name}</span>
+                <Badge variant="outline">{exercise.muscleGroup}</Badge>
+              </div>
+              <span className="text-sm text-muted-foreground">
+                {formatSeries(exercise.series)}
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
+
+    {/* Ações */}
+    <div className="flex flex-col-reverse gap-4 pt-6 lg:flex-row absolute bottom-[0px] w-[92%] lg:w-[98%] lg:relative lg:mt-4">
+      <Button
+        onClick={addTrainingExercise}
+        className="flex-1 lg:w-44 bg-white text-green-600 border border-green-600 hover:bg-green-50 font-semibold rounded-xl py-3 text-base transition"
+      >
+        Adicionar próximo treino
+      </Button>
+      <Button
+        className="flex-1 lg:w-44 bg-green-600 text-white hover:bg-green-700 font-semibold rounded-xl py-3 text-base transition"
+        onClick={handleConclude}
+      >
+        Concluir
+      </Button>
+    </div>
+  </div>
+</div>
+
   )
 }

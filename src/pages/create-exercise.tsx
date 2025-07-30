@@ -143,8 +143,13 @@ export default function CreateExercise() {
 
       <SeriesExecution series={seriesSelected} setSeries={setSeriesSelected} />
       <div className="fixed bottom-0 left-0 z-10 w-[100%] bg-slate-50 p-4 shadow-lg dark:bg-black">
-        <Button className="w-[100%] lg:w-44" onClick={handleCreateNewExercise}>
-          Continuar
+        <Button
+            size={'lg'}
+            className="w-[100%] text-base bg-green-600 text-white hover:bg-green-700 font-semibold rounded-xl py-3 transition lg:w-44"
+            type="button"
+            onClick={handleCreateNewExercise}
+          >
+            Continuar
         </Button>
       </div>
     </div>

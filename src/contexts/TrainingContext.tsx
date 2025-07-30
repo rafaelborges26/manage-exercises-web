@@ -15,12 +15,14 @@ type TypeTrainingContext = {
   training: TrainingProps
   exercise: ExerciseSeriesProps
   exercises: ExerciseSeriesProps[]
+  trainingsExercises: TrainingExercise[]
   createTrainingDispatch: (data: TrainingProps) => void
   createExerciseDispatch: (data: ExerciseSeriesProps) => void
   createExercisesDispatch: (data: ExerciseSeriesProps) => void
   deleteExerciseDispatch: (idExercise: string) => void
   selectExercise: (idExercise: string) => void
   addNewTrainingExercise: () => void
+
 }
 
 type TypePropsAccompaniment = {
@@ -115,7 +117,7 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
       ...prev,
       {
         exercises: exercises,
-        trainingDetails: training
+        ...training
       }
     ])
 
@@ -134,6 +136,7 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
         training,
         exercise,
         exercises,
+        trainingsExercises,
         createTrainingDispatch,
         createExerciseDispatch,
         createExercisesDispatch,

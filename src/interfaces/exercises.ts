@@ -22,7 +22,6 @@ export interface TrainingProps {
   sessions?: number
 }
 
-export interface TrainingExercise {
-  trainingDetails: TrainingProps,
+export interface TrainingExercise extends TrainingProps {
   exercises: ExerciseSeriesProps[]
 }

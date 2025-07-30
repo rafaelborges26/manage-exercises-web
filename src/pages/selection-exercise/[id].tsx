@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowLeft, X } from 'lucide-react'
+import { ArrowLeft, X, CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
@@ -137,15 +137,19 @@ export default function SelectionExercise() {
   return (
     <div className="relative flex h-[100%] w-[100%] max-w-[1240px] flex-col gap-4 px-6 lg:gap-2">
       <div className="mb-8 flex w-[100%] flex-col gap-4 lg:mt-4">
-        <div className="relative flex items-center justify-center">
-          <button
-            onClick={handleNavigateBack}
-            className="absolute bottom-0 left-2 top-0 border-none bg-transparent"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-3xl font-bold tracking-tight">Seleção</h1>
-        </div>
+          <div className="flex items-center justify-between w-full">
+  <button
+    onClick={handleNavigateBack}
+    className="text-gray-500 hover:text-black dark:hover:text-white"
+  >
+    <ArrowLeft size={24} />
+  </button>
+  <h1 className="text-xl font-semibold tracking-tight text-center flex-1">
+    Detalhes do exercício
+  </h1>
+  <div className="w-6" /> {/* Espaço para equilibrar visualmente */}
+</div>
+
       </div>
 
       <h6 className="text-2xl font-semibold tracking-tight">
@@ -186,10 +190,17 @@ export default function SelectionExercise() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 z-10 w-[100%] bg-slate-50 p-4 shadow-lg dark:bg-black">
-        <Button className="w-[100%] lg:w-44" onClick={handleSelectExercise}>
-          Selecionar
-        </Button>
+       <div className="fixed bottom-0 left-0 right-0 z-10 w-full bg-white dark:bg-black p-4 border-t border-gray-200 dark:border-gray-700 shadow-inner">
+        <div className="flex justify-center">
+          <Button
+            onClick={handleSelectExercise}
+            variant={'default'}
+            className="w-full lg:w-48 font-semibold gap-2 transition-all duration-300"
+          >
+            <CheckCircle size={18} />
+            Selecionar exercício
+          </Button>
+        </div>
       </div>
     </div>
   )
