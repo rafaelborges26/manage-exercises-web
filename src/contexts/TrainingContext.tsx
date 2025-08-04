@@ -10,6 +10,8 @@ import {
   initialValuesExercise,
   InitialValuesTraining,
 } from '@/utils/initialValues'
+import { api } from '@/services/api'
+import { Routes } from '@/constants/routes'
 
 type TypeTrainingContext = {
   training: TrainingProps
@@ -22,6 +24,7 @@ type TypeTrainingContext = {
   deleteExerciseDispatch: (idExercise: string) => void
   selectExercise: (idExercise: string) => void
   addNewTrainingExercise: () => void
+  getTrainingsUser: () => void
 
 }
 
@@ -124,6 +127,13 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
     resetValues()
   }
 
+  const getTrainingsUser = async () => {
+    const { data } = await api.get<TrainingExercise[]>(`api/${Routes.trainings}`)
+    
+        console.log(data)    
+        setTrainingsExercises(data)
+  }
+
   const resetValues = () => {
     setTraining(InitialValuesTraining)
     setExercise(initialValuesExercise)
@@ -143,6 +153,7 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
         deleteExerciseDispatch,
         selectExercise,
         addNewTrainingExercise,
+        getTrainingsUser,
       }}
     >
       {children}

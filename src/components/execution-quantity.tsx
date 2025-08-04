@@ -30,40 +30,45 @@ export function ExecutionQuantity({
   }
 
   return (
-    <div className="flex w-auto flex-row items-center justify-between rounded-lg bg-gray-100 px-4 dark:bg-zinc-900">
-      <span className="flex w-[30%] items-center justify-center p-4 text-2xl lg:p-6 lg:text-3xl lg:font-medium">
-        {currentSeries}
-      </span>
-      <Separator orientation="vertical" />
-      <div className="flex w-[30%] flex-col items-center justify-center p-4 font-medium lg:p-6">
-        <Input
-          className="w-16 border-b border-solid border-b-gray-100 bg-transparent text-center text-2xl font-medium lg:w-[5.5rem] lg:text-3xl"
-          id="repetiçoes"
-          type="number"
-          value={repetitionUpdated}
-          onChange={(e) => setRepetitionUpdated(Number(e.target.value))}
-          onBlur={handleUpdateSeries}
-        />
-        <span className="flex w-16 items-center justify-center text-center text-xl font-normal lg:text-2xl">
-          Repetições
-        </span>
-      </div>
-      <Separator orientation="vertical" />
-      <div className="flex w-10 w-[30%] flex-col items-center justify-center p-6">
-        <Input
-          className="w-20 border-b border-solid border-b-gray-100 bg-transparent text-center text-2xl font-medium lg:w-[5.5rem] lg:text-3xl"
-          id="peso"
-          value={weightUpdated}
-          aria-autocomplete="none"
-          type="number"
-          min={1}
-          onChange={(e) => setWeightUpdated(Number(e.target.value))}
-          onBlur={handleUpdateSeries}
-        />
-        <span className="flex w-16 items-center justify-center text-center text-xl font-normal lg:text-2xl">
-          Peso
-        </span>
-      </div>
-    </div>
+    <div className="flex w-full items-center justify-between rounded-2xl border border-gray-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 lg:p-6">
+  {/* Série Atual */}
+  <div className="flex w-1/4 flex-col items-center justify-center">
+    <span className="text-3xl font-semibold text-gray-800 dark:text-white">
+      {currentSeries}
+    </span>
+    <span className="text-sm text-gray-500 dark:text-gray-400">Série</span>
+  </div>
+
+  <Separator orientation="vertical" className="h-12 bg-gray-300 dark:bg-zinc-700" />
+
+  {/* Repetições */}
+  <div className="flex w-1/3 flex-col items-center justify-center gap-1">
+    <Input
+      type="number"
+      min={1}
+      value={repetitionUpdated}
+      onChange={(e) => setRepetitionUpdated(Number(e.target.value))}
+      onBlur={handleUpdateSeries}
+      className="w-20 text-center text-2xl font-medium border-b-2 border-gray-300 dark:border-zinc-700 bg-transparent focus:outline-none"
+    />
+    <span className="text-sm text-gray-600 dark:text-gray-400">Repetições</span>
+  </div>
+
+  <Separator orientation="vertical" className="h-12 bg-gray-300 dark:bg-zinc-700" />
+
+  {/* Peso */}
+  <div className="flex w-1/3 flex-col items-center justify-center gap-1">
+    <Input
+      type="number"
+      min={0}
+      value={weightUpdated}
+      onChange={(e) => setWeightUpdated(Number(e.target.value))}
+      onBlur={handleUpdateSeries}
+      className="w-20 text-center text-2xl font-medium border-b-2 border-gray-300 dark:border-zinc-700 bg-transparent focus:outline-none"
+    />
+    <span className="text-sm text-gray-600 dark:text-gray-400">Peso (kg)</span>
+  </div>
+</div>
+
   )
 }

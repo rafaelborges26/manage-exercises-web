@@ -1,10 +1,17 @@
 import { ErrorMessage } from '@/components/errorMessage';
 import { useTraining } from '@/contexts/TrainingContext';
+import { api } from '@/services/api';
 import { Dumbbell } from 'lucide-react';
+import { useEffect } from 'react';
 
 export default function StartTraining() {
 
-const { trainingsExercises } = useTraining()
+const { trainingsExercises, getTrainingsUser } = useTraining()
+
+
+useEffect(() => {
+    getTrainingsUser()
+},[])
 
   return (
     <div className="relative flex h-full w-full max-w-[1240px] flex-col items-center px-4">
