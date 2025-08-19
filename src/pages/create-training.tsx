@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { TypeTraining, typeTraining } from '@/constants'
+import { typeTraining } from '@/constants/training'
 import { useTraining } from '@/contexts/TrainingContext'
 import { CounterInput } from '@/components/counter-input'
 import { Stepper } from '@/components/stepper'
@@ -109,7 +109,8 @@ export default function CreateTraining() {
               <CounterInput value={sessions} onChange={(val) => {
                 setSessions(val)
                 setValue('sessions', val)
-              }} />            </div>
+              }} />            
+            </div>
           </div>
         </div>
         <div className="absolute bottom-[0px] flex w-[88%] lg:relative lg:mt-4">

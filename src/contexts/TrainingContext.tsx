@@ -7,11 +7,13 @@ import {
   TrainingProps,
 } from '@/interfaces/exercises'
 import {
+  InitialValueSessionsTraining,
   initialValuesExercise,
   InitialValuesTraining,
 } from '@/utils/initialValues'
 import { api } from '@/services/api'
 import { Routes } from '@/constants/routes'
+import { SessionTrainingProps } from '@/interfaces/sessions'
 
 type TypeTrainingContext = {
   training: TrainingProps
@@ -25,6 +27,9 @@ type TypeTrainingContext = {
   selectExercise: (idExercise: string) => void
   addNewTrainingExercise: () => void
   getTrainingsUser: () => void
+  startSessionTraining: (idTraining: string) => void
+  sessionTraining: SessionTrainingProps | undefined
+  updateTrainingSeries: (idTraining: string, currentSeries: number, repetition: number, weight: number) => void
 
 }
 
@@ -43,6 +48,8 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
   const [exercises, setExercises] = useState<ExerciseSeriesProps[]>([])
 
   const [trainingsExercises, setTrainingsExercises] = useState<TrainingExercise[]>([])
+
+  const [sessionTraining, setSessionTraining] = useState<SessionTrainingProps>(InitialValueSessionsTraining)
 
   const createTrainingDispatch = ({
     id,
@@ -134,6 +141,62 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
         setTrainingsExercises(data)
   }
 
+  const updateTrainingSeries = async (idTraining: string, currentSeries: number, newRepetition: number, newWeight: number) => {
+    //pegar dados do sessionTraining e disparar apos clicar no pronto
+    
+    //const { data } = await api.put(`api/${Routes.updateExerciseSeries}`,
+    //{
+    //  idTraining,
+    //  currentSeries,
+    //  repetition,
+    //  weight
+    //})
+    console.log(idTraining, 'IDTRAINING')
+    //alterar as series do session e armazenar no session, apos clicar no botao de pronto disparar
+
+
+     setSessionTraining((prevTraining) => {
+      // Encontra o exercício específico
+      const updatedExercises = prevTraining?.exercises.map((exercise) => {
+        if (exercise.id === idTraining) {
+          // Atualiza a série específica
+          const updatedSeries = exercise.series.map((series) => {
+            if (series.currentSeries === currentSeries) {
+              return { ...series, repetition: newRepetition, weight: newWeight };
+            }
+            return series;
+          });
+          return { ...exercise, series: updatedSeries };
+        }
+        return exercise;
+      });
+
+      console.log(updatedExercises, 'updatedExercises')
+
+      return { ...prevTraining, exercises: updatedExercises };
+    });
+  };
+     
+    
+
+    
+
+    //setSessionTraining({
+    //})
+
+  const startSessionTraining = (idTraining: string) => {
+    const trainingFound = trainingsExercises.find(trainingSelected => trainingSelected.id === idTraining)
+
+    if(trainingFound){
+      setSessionTraining({
+        id: new Date().toISOString(), //tratar no backend o id
+        exercises: trainingFound.exercises,
+        name: trainingFound.name,
+        startDate: new Date()
+      })
+    }
+  }
+
   const resetValues = () => {
     setTraining(InitialValuesTraining)
     setExercise(initialValuesExercise)
@@ -154,6 +217,9 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
         selectExercise,
         addNewTrainingExercise,
         getTrainingsUser,
+        startSessionTraining,
+        updateTrainingSeries,
+        sessionTraining
       }}
     >
       {children}

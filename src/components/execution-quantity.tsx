@@ -9,6 +9,7 @@ interface EvolutionQuantityProps {
   currentSeries: number
   repetition: number
   weight: number
+  idTraining: string
   updateSeries: (
     currentSeries: number,
     repetition: number,
@@ -17,6 +18,7 @@ interface EvolutionQuantityProps {
 }
 
 export function ExecutionQuantity({
+  idTraining,
   currentSeries,
   repetition,
   weight,

@@ -3,11 +3,19 @@ import { useTraining } from '@/contexts/TrainingContext';
 import { api } from '@/services/api';
 import { Dumbbell } from 'lucide-react';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router'
 
 export default function StartTraining() {
 
-const { trainingsExercises, getTrainingsUser } = useTraining()
+      const { push } = useRouter()
+  
+const { trainingsExercises, getTrainingsUser, startSessionTraining } = useTraining()
 
+
+  const handleNavigateExercise = (idExercise: string) => {
+    startSessionTraining(idExercise)
+    push(`/exercises/${idExercise}`)
+  }
 
 useEffect(() => {
     getTrainingsUser()
@@ -43,7 +51,7 @@ useEffect(() => {
                   </p>
                 </div>
               </div>
-              <button className="text-green-600 dark:text-green-400 font-semibold text-sm hover:underline">
+              <button className="text-green-600 dark:text-green-400 font-semibold text-sm hover:underline" onClick={() => handleNavigateExercise(training.id)} >
                 Iniciar
               </button>
             </li>
