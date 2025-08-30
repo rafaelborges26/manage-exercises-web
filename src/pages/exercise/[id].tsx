@@ -10,7 +10,7 @@ import { initialValuesExercise } from '@/utils/initialValues'
 
 export default function Product() {
   const { query } = useRouter()
-  const { sessionTraining, updateTrainingSeries } = useTraining()
+  const { sessionTraining, updateSessionTraining } = useTraining()
 
   const [exercise, setExercise] = useState<ExerciseSeriesProps>(initialValuesExercise)
 
@@ -31,7 +31,7 @@ export default function Product() {
 
   const updateExercises = (currentSeries: number, repetition: number, weight: number) => {
     console.log('teste', currentSeries, repetition, weight)
-    updateTrainingSeries(idTraining?.toString() || '', currentSeries, repetition, weight)
+    updateSessionTraining(idTraining?.toString() || '', currentSeries, repetition, weight)
     //chamar contexto pra alterar exercicios e series passando o idtreino e idserie
 
   }

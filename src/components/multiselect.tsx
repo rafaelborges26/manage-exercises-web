@@ -59,7 +59,7 @@ export const MultiSelect = ({
         <ChevronDown width={20} height={20} className="gray-500" />
       </button>
       {isOpenSelect && (
-        <div className="left-0 top-full z-[1] max-h-[150px] w-full rounded border border-solid bg-transparent text-start focus:border-[#ccc]">
+        <div className="left-0 top-full z-[1] max-h-[150px] w-full rounded border border-solid bg-transparent text-start focus:border-[#ccc] overflow-auto">
           {options.map((option) => (
             <label
               key={option.id}

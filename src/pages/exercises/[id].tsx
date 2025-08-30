@@ -18,6 +18,10 @@ export default function Exercises() {
     push(`/exercise/${exercise.id}`)
   }
 
+  const handleStartSession = () => {
+    push('/start-session')
+  }
+
   return (
     <div className="flex h-[100%] w-[100%] max-w-[1240px] flex-col items-center gap-4">
       <div className="flex w-[inherit] items-center justify-center lg:relative lg:flex-col">
@@ -38,7 +42,7 @@ export default function Exercises() {
         {sessionTraining?.exercises.map((exercise) => (
           <Card
             exercise={exercise}
-            onClick={() => handleNavigateExercise(exercise.id)}
+            onClick={() => handleNavigateExercise(exercise)}
           />
         ))}
       </div>
@@ -47,6 +51,7 @@ export default function Exercises() {
         <Button
           size={'lg'}
           className="w-[90%] bg-green-500 text-base font-bold hover:bg-green-600 lg:w-8"
+          onClick={handleStartSession}
         >
           Iniciar o treino
         </Button>

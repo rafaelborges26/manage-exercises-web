@@ -29,44 +29,41 @@ export default function SignIn() {
   }
 
   return (
-    <div className="relative flex h-[100%] max-w-[1240px] flex-col items-center justify-center px-6 antialiased">
-      <h2 className="mb-4 text-3xl font-bold text-green-600 dark:text-green-500 lg:text-4xl">
+    <div className="relative flex h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-green-50 dark:from-gray-900 dark:to-gray-800 px-6">
+  <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg dark:bg-zinc-900">
+    <h2 className="mb-2 text-center text-3xl font-extrabold text-green-600 dark:text-green-500">
+      Bora treinar?
+    </h2>
+    <p className="mb-6 text-center text-sm text-gray-600 dark:text-gray-400">
+      Bem-vindo de volta! Faça login para continuar sua jornada
+    </p>
+
+    <form onSubmit={handleSubmit(handleSignIn)} className="space-y-4">
+      <Input {...register('email')} id="email" placeholder="Digite seu Email" />
+      <div className="relative">
+        <Input
+          {...register('password')}
+          id="password"
+          type="password"
+          placeholder="Digite sua Senha"
+        />
+        {/* Aqui poderia entrar o botão de mostrar/ocultar senha */}
+      </div>
+
+      <Button
+        size={'lg'}
+        className="w-full bg-green-500 font-bold hover:bg-green-600"
+        type="submit"
+      >
         Entrar
-      </h2>
-      <p className="mb-8 text-center text-sm font-medium text-gray-700 dark:text-gray-400 lg:text-base">
-        Bem-vindo de volta! Por favor, faça login para acessar sua conta
-      </p>
+      </Button>
 
-      <form onSubmit={handleSubmit(handleSignIn)} className="h-[100%] w-[100%]">
-        <div className="w-auto space-y-4 py-4">
-          <div className="flex w-auto flex-col gap-6 lg:flex-row">
-            <Input
-              {...register('email')}
-              className="col-span-3"
-              id="email"
-              placeholder="Digite seu Email"
-            />
-
-            <Input
-              {...register('password')}
-              className="col-span-3"
-              id="password"
-              type="password"
-              placeholder="Digite sua Senha"
-            />
-          </div>
-
-          <div className="absolute bottom-[1rem] left-1 right-1 flex flex-row items-center justify-center gap-4 lg:relative lg:bottom-1 lg:mb-2 lg:items-center lg:justify-center">
-            <Button
-              size={'lg'}
-              className="w-[90%] bg-green-500 text-base font-bold hover:bg-green-600 lg:w-[20%]"
-              type="submit"
-            >
-              Entrar
-            </Button>
-          </div>
-        </div>
-      </form>
-    </div>
+      <div className="mt-4 flex justify-between text-sm text-gray-600 dark:text-gray-400">
+        <a href="#" className="hover:underline">Esqueceu a senha?</a>
+        <a href="#" className="hover:underline">Criar conta</a>
+      </div>
+    </form>
+  </div>
+</div>
   )
 }

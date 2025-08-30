@@ -5,84 +5,108 @@ import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { MuscleMascot } from '@/components/muscleMascot'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function SignUp() {
   const signUpSchema = z.object({
-    name: z.string(),
-    lastname: z.string(),
-    email: z.string().email(),
-    password: z.string(),
+    name: z.string().min(1, 'Informe o nome'),
+    lastname: z.string().min(1, 'informe o sobrenome'),
+    email: z.string().min(1, 'Informe o email').email({message: 'email inválido'}),
+    phone: z.string().min(1, 'Informe o celular'),
+    password: z.string().min(1, 'Informe a senha'),
   })
 
   type SignUpSchema = z.infer<typeof signUpSchema>
 
-  const { register, handleSubmit } = useForm<SignUpSchema>({
+  const { register, handleSubmit, formState: { errors }} = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: '',
       lastname: '',
       email: '',
+      phone: '',
       password: '',
     },
   })
 
-  const handleSignUp = ({ email, lastname, name, password }: SignUpSchema) => {
-    console.log(name, lastname, email, password, 'data test')
+  const handleSignUp = ({ email, lastname, name, phone, password }: SignUpSchema) => {
+    console.log(name, lastname, email, phone, password, 'data test')
   }
+  console.log(errors, 'errors')
 
   return (
-    <div className="relative flex h-[100%] max-w-[1240px] flex-col items-center px-6 antialiased">
+    <div className="relative mx-auto flex max-w-[1240px] flex-col items-center px-6 py-10 antialiased">
+
+    <div className="hidden lg:block">
+      <MuscleMascot />
+    </div>
+
       <h2 className="mb-4 text-3xl font-bold text-green-600 dark:text-green-500 lg:text-4xl">
         Criar uma conta
       </h2>
       <p className="mb-8 text-center text-sm font-medium text-gray-700 dark:text-gray-400 lg:text-base">
-        junte-se à nossa comunidade hoje! Crie uma conta para desbloquear
-        recursos e experiências personalizadas.
+        Junte-se à nossa comunidade hoje! Crie uma conta para desbloquear recursos e experiências personalizadas.
       </p>
 
-      <form onSubmit={handleSubmit(handleSignUp)} className="h-[100%] w-[100%]">
-        <div className="w-auto space-y-4 py-4">
-          <div className="flex w-auto flex-col gap-6 lg:flex-row">
+      <form onSubmit={handleSubmit(handleSignUp)} className="w-full animate-fadeIn">
+        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="flex flex-col">
             <Input
               {...register('name')}
-              className="col-span-3"
               id="name"
               placeholder="Digite o primeiro nome"
             />
-
-            <Input
-              {...register('lastname')}
-              className="col-span-3"
-              id="name"
-              placeholder="Digite o sobrenome"
-            />
+            {errors.name && <span className="mt-1 text-sm text-red-500">{errors.name.message}</span>}
           </div>
 
-          <div className="relative bottom-0 mb-6 mt-8 flex flex-col items-center justify-center gap-4 lg:relative lg:bottom-1 lg:mb-2 lg:flex-row lg:items-center lg:justify-center">
+          <div className="flex flex-col">
+            <Input
+              {...register('lastname')}
+              id="lastname"
+              placeholder="Digite o sobrenome"
+            />
+            {errors.lastname && <span className="mt-1 text-sm text-red-500">{errors.lastname.message}</span>}
+          </div>
+
+          <div className="flex flex-col">
             <Input
               {...register('email')}
               id="email"
               placeholder="Digite o Email"
             />
+            {errors.email && <span className="mt-1 text-sm text-red-500">{errors.email.message}</span>}
+          </div>
+
+          <div className="flex flex-col">
+            <Input
+              {...register('phone')}
+              id="phone"
+              placeholder="Digite o Celular"
+            />
+            {errors.phone && <span className="mt-1 text-sm text-red-500">{errors.phone.message}</span>}
+          </div>
+
+          <div className="flex flex-col">
             <Input
               {...register('password')}
-              className="col-span-3"
               id="password"
               placeholder="Digite a senha"
               type="password"
             />
+            {errors.password && <span className="mt-1 text-sm text-red-500">{errors.password.message}</span>}
           </div>
-          <div className="absolute bottom-[1rem] left-1 right-1 flex flex-row items-center justify-center gap-4 lg:relative lg:bottom-1 lg:mt-4 lg:items-center lg:justify-center">
-            <Button
-              type="submit"
-              size={'lg'}
-              className="w-[90%] bg-green-500 text-base font-bold hover:bg-green-600 lg:w-[20%]"
-            >
-              Criar conta
-            </Button>
-          </div>
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full max-w-xs bg-green-500 font-bold text-white hover:bg-green-600"
+          >
+            Criar conta
+          </Button>
         </div>
       </form>
     </div>

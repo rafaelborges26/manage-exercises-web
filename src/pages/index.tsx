@@ -21,57 +21,61 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col px-6 antialiased lg:flex-row">
-      <section className="flex flex-col justify-center lg:w-[60%]">
-        <span className="text-[2rem] font-bold">
-          <strong className="text-green-600 dark:text-green-500">
-            PersonalPro:
-          </strong>{' '}
-          Gestão de Treinos e Aulas
-        </span>
+<div className="flex h-auto min-h-full flex-col-reverse items-center justify-start gap-8 px-6 py-10 mt-[55%] antialiased lg:flex-row lg:gap-16 lg:py-20 lg:mt-[0%]">
 
-        <span className="text-[2rem] font-bold">
-          <strong className="text-green-600 dark:text-green-500">
-            TreinoMaster:
-          </strong>{' '}
-          Controle Completo de Aulas e Treinos
-        </span>
-        <p className="mt-4 text-sm font-medium text-gray-700 dark:text-gray-400">
-          O PersonalPro é a solução ideal para personal trainers organizarem e
-          acompanharem os treinos e aulas de seus alunos de forma prática e
-          eficiente.
-        </p>
-        <p className="text-sm font-medium text-gray-700 dark:text-gray-400">
-          Com ferramentas intuitivas, você pode criar planos de treino
-          personalizados, monitorar o desempenho, agendar aulas e otimizar o
-          progresso dos seus alunos. Simplifique sua rotina e ofereça um serviço
-          ainda mais profissional com o PersonalPro.
-        </p>
-        <div className="mb-6 mt-8 flex flex-row items-center justify-center gap-4 lg:mb-2 lg:items-center lg:justify-start">
-          <Button
-            onClick={handleNavigateSignUp}
-            size={'lg'}
-            className="bg-green-500 text-base font-bold hover:bg-green-600"
-          >
-            Criar conta
-          </Button>
-          <Button
-            size={'lg'}
-            onClick={handleNavigateSignIn}
-            className="text-base font-bold"
-          >
-            Entrar
-          </Button>
-        </div>
-      </section>
-      <div className="m-auto h-auto w-auto">
-        <Image src={GroupImage} className="ml-5rem mb-[-10rem]" alt="" />
-        <Image
-          src={FitnessModelsImage}
-          alt="Fitness"
-          className="rounded-xl border-2"
-        />
-      </div>
+
+  {/* Texto */}
+  <section className="flex flex-col text-center lg:text-left lg:w-[55%]">
+    <h1 className="text-3xl font-bold leading-tight text-gray-900 dark:text-white lg:text-5xl">
+      <span className="text-green-600 dark:text-green-500">TreinoMaster:</span>{" "}
+      Controle Completo de Aulas e Treinos
+    </h1>
+
+    <p className="mt-6 text-base font-medium text-gray-700 dark:text-gray-400 lg:text-lg">
+      O <strong>PersonalPro</strong> é a solução ideal para personal trainers 
+      organizarem e acompanharem os treinos e aulas de seus alunos de forma prática e eficiente.
+    </p>
+
+    <p className="mt-3 text-base font-medium text-gray-700 dark:text-gray-400 lg:text-lg">
+      Crie planos de treino personalizados, monitore o desempenho, agende aulas e otimize o progresso dos alunos. 
+      Simplifique sua rotina e ofereça um serviço ainda mais profissional.
+    </p>
+
+    {/* Botões */}
+    <div className="mt-8 flex flex-col items-center gap-4 lg:flex-row lg:justify-start">
+      <Button
+        onClick={handleNavigateSignUp}
+        size="lg"
+        className="w-full lg:w-auto bg-green-500 text-base font-bold hover:bg-green-600"
+      >
+        Criar conta
+      </Button>
+      <Button
+        onClick={handleNavigateSignIn}
+        size="lg"
+        className="w-full lg:w-auto text-base font-bold"
+      >
+        Entrar
+      </Button>
     </div>
+  </section>
+
+  {/* Imagem */}
+  <div className="flex w-full justify-center lg:w-[45%]">
+    <div className="relative w-full max-w-md">
+      <Image
+        src={GroupImage}
+        alt="Setas de crescimento"
+        className="absolute -top-20 left-1/2 w-[80%] -translate-x-1/2 opacity-70"
+      />
+      <Image
+        src={FitnessModelsImage}
+        alt="Fitness"
+        className="relative rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-lg"
+      />
+    </div>
+  </div>
+</div>
+
   )
 }

@@ -7,7 +7,7 @@ import {
   TrainingProps,
 } from '@/interfaces/exercises'
 import {
-  InitialValueSessionsTraining,
+  InitialValueSessions,
   initialValuesExercise,
   InitialValuesTraining,
 } from '@/utils/initialValues'
@@ -28,8 +28,9 @@ type TypeTrainingContext = {
   addNewTrainingExercise: () => void
   getTrainingsUser: () => void
   startSessionTraining: (idTraining: string) => void
-  sessionTraining: SessionTrainingProps | undefined
-  updateTrainingSeries: (idTraining: string, currentSeries: number, repetition: number, weight: number) => void
+  sessionTraining: SessionTrainingProps
+  updateTrainingSeries: () => void
+  updateSessionTraining: (idTraining: string, currentSeries: number, repetition: number, weight: number) => void
 
 }
 
@@ -49,7 +50,10 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
 
   const [trainingsExercises, setTrainingsExercises] = useState<TrainingExercise[]>([])
 
-  const [sessionTraining, setSessionTraining] = useState<SessionTrainingProps>(InitialValueSessionsTraining)
+  const [sessionTraining, setSessionTraining] = useState<SessionTrainingProps>(InitialValueSessions)
+
+  console.log(sessionTraining, 'sessionTraining')
+
 
   const createTrainingDispatch = ({
     id,
@@ -141,16 +145,7 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
         setTrainingsExercises(data)
   }
 
-  const updateTrainingSeries = async (idTraining: string, currentSeries: number, newRepetition: number, newWeight: number) => {
-    //pegar dados do sessionTraining e disparar apos clicar no pronto
-    
-    //const { data } = await api.put(`api/${Routes.updateExerciseSeries}`,
-    //{
-    //  idTraining,
-    //  currentSeries,
-    //  repetition,
-    //  weight
-    //})
+  const updateSessionTraining = async (idTraining: string, currentSeries: number, newRepetition: number, newWeight: number) => {
     console.log(idTraining, 'IDTRAINING')
     //alterar as series do session e armazenar no session, apos clicar no botao de pronto disparar
 
@@ -176,13 +171,21 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
       return { ...prevTraining, exercises: updatedExercises };
     });
   };
-     
-    
 
-    
+  const updateTrainingSeries = () => {
+    //disparar request de update apos clicar em pronto e ao navegar para a proxima serie se tiver alteracao
 
-    //setSessionTraining({
+    //pegar dados do sessionTraining e disparar apos clicar no pronto
+    
+    //const { data } = await api.put(`api/${Routes.updateExerciseSeries}`,
+    //{
+    //  idTraining,
+    //  currentSeries,
+    //  repetition,
+    //  weight
     //})
+
+  }
 
   const startSessionTraining = (idTraining: string) => {
     const trainingFound = trainingsExercises.find(trainingSelected => trainingSelected.id === idTraining)
@@ -219,6 +222,7 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
         getTrainingsUser,
         startSessionTraining,
         updateTrainingSeries,
+        updateSessionTraining,
         sessionTraining
       }}
     >
