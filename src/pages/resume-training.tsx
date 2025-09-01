@@ -25,7 +25,7 @@ interface RepetitionsProps {
 export default function ChooseExercises() {
   const router = useRouter()
 
-  const { exercises, training, addNewTrainingExercise } = useTraining()
+  const { exercises, training, createTrainingExercise } = useTraining()
 
   const formatSeries = useCallback((series: SeriesProps[]) => {
 
@@ -54,12 +54,12 @@ export default function ChooseExercises() {
   },[exercises])
 
   const addTrainingExercise = () => {
-    addNewTrainingExercise()
+    createTrainingExercise()
     router.push('create-training')
   }
 
   const handleConclude = () => {
-    addNewTrainingExercise()
+    createTrainingExercise()
     router.push('home')
   }
 
@@ -71,11 +71,13 @@ export default function ChooseExercises() {
     <div className="flex items-center justify-between w-full">
       <button
         onClick={() => {}}
-        className="text-gray-500 hover:text-black dark:hover:text-white"
+        className="text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white"
       >
         <ArrowLeft size={24} />
       </button>
-      <h1 className="text-xl font-bold text-center flex-1">Revisar treino</h1>
+      <h1 className="text-xl font-bold text-center flex-1 dark:text-white">
+        Revisar treino
+      </h1>
       <div className="w-6" /> {/* espaço para equilibrar visualmente */}
     </div>
 
@@ -84,26 +86,32 @@ export default function ChooseExercises() {
 
     {/* Bloco principal */}
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold text-gray-900">{training.name}</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        {training.name}
+      </h2>
 
-      <p className="text-sm text-gray-700">
+      <p className="text-sm text-gray-700 dark:text-gray-300">
         <span className="font-medium">Finalidade:</span> {training.type}
       </p>
 
       {/* Lista de Exercícios */}
       <div className="flex flex-col gap-3">
-        <h3 className="text-xl font-semibold text-gray-800">Exercícios:</h3>
+        <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+          Exercícios:
+        </h3>
         <ul className="flex flex-col gap-4 overflow-y-scroll">
           {exercises.map((exercise) => (
             <li
               key={exercise.id}
-              className="flex flex-col gap-1 border rounded-xl p-3 shadow-sm bg-white"
+              className="flex flex-col gap-1 border rounded-xl p-3 shadow-sm bg-white dark:bg-zinc-800 dark:border-zinc-700"
             >
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-base">{exercise.name}</span>
+                <span className="font-semibold text-base dark:text-white">
+                  {exercise.name}
+                </span>
                 <Badge variant="outline">{exercise.muscleGroup}</Badge>
               </div>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-muted-foreground dark:text-gray-400">
                 {formatSeries(exercise.series)}
               </span>
             </li>
@@ -116,12 +124,12 @@ export default function ChooseExercises() {
     <div className="flex flex-col-reverse gap-4 pt-6 lg:flex-row absolute bottom-[0px] w-[92%] lg:w-[98%] lg:relative lg:mt-4">
       <Button
         onClick={addTrainingExercise}
-        className="flex-1 lg:w-44 bg-white text-green-600 border border-green-600 hover:bg-green-50 font-semibold rounded-xl py-3 text-base transition"
+        className="flex-1 lg:w-44 bg-white text-green-600 border border-green-600 hover:bg-green-50 dark:bg-zinc-800 dark:text-green-400 dark:border-green-400 dark:hover:bg-zinc-700 font-semibold rounded-xl py-3 text-base transition"
       >
         Adicionar próximo treino
       </Button>
       <Button
-        className="flex-1 lg:w-44 bg-green-600 text-white hover:bg-green-700 font-semibold rounded-xl py-3 text-base transition"
+        className="flex-1 lg:w-44 bg-green-600 text-white hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 font-semibold rounded-xl py-3 text-base transition"
         onClick={handleConclude}
       >
         Concluir
@@ -129,6 +137,5 @@ export default function ChooseExercises() {
     </div>
   </div>
 </div>
-
   )
 }

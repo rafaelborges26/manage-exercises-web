@@ -18,7 +18,11 @@ const { trainingsExercises, getTrainingsUser, startSessionTraining } = useTraini
   }
 
 useEffect(() => {
-    getTrainingsUser()
+
+  //call request depois de integrar
+    //getTrainingsUser()
+
+    //paliativo esta setando no localstorage    
 },[])
 
   return (

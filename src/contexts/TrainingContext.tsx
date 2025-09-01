@@ -1,4 +1,4 @@
-import { createContext, type ReactNode, useContext, useState } from 'react'
+import { createContext, type ReactNode, useContext, useEffect, useState } from 'react'
 
 import {
   ExerciseSeriesProps,
@@ -25,7 +25,7 @@ type TypeTrainingContext = {
   createExercisesDispatch: (data: ExerciseSeriesProps) => void
   deleteExerciseDispatch: (idExercise: string) => void
   selectExercise: (idExercise: string) => void
-  addNewTrainingExercise: () => void
+  createTrainingExercise: () => void
   getTrainingsUser: () => void
   startSessionTraining: (idTraining: string) => void
   sessionTraining: SessionTrainingProps
@@ -126,23 +126,46 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
     }
   }
 
-  const addNewTrainingExercise = () => {
-    setTrainingsExercises((prev) => [
+  const createTrainingExercise = () => {
+  setTrainingsExercises((prev) => {
+    const newValue = [
       ...prev,
       {
         exercises: exercises,
         ...training
       }
-    ])
+    ]
 
-    resetValues()
-  }
+    // salva no localstorage
+    localStorage.setItem("@Fitness.training", JSON.stringify(newValue))
+
+    return newValue
+  })
+
+  resetValues()
+}
+
 
   const getTrainingsUser = async () => {
     const { data } = await api.get<TrainingExercise[]>(`api/${Routes.trainings}`)
     
         console.log(data)    
         setTrainingsExercises(data)
+  }
+
+  const updateTrainingSeries = () => {
+    //disparar request de update apos clicar em pronto e ao navegar para a proxima serie se tiver alteracao
+
+    //pegar dados do sessionTraining e disparar apos clicar no pronto
+    
+    //const { data } = await api.put(`api/${Routes.updateExerciseSeries}`,
+    //{
+    //  idTraining,
+    //  currentSeries,
+    //  repetition,
+    //  weight
+    //})
+
   }
 
   const updateSessionTraining = async (idTraining: string, currentSeries: number, newRepetition: number, newWeight: number) => {
@@ -172,21 +195,6 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
     });
   };
 
-  const updateTrainingSeries = () => {
-    //disparar request de update apos clicar em pronto e ao navegar para a proxima serie se tiver alteracao
-
-    //pegar dados do sessionTraining e disparar apos clicar no pronto
-    
-    //const { data } = await api.put(`api/${Routes.updateExerciseSeries}`,
-    //{
-    //  idTraining,
-    //  currentSeries,
-    //  repetition,
-    //  weight
-    //})
-
-  }
-
   const startSessionTraining = (idTraining: string) => {
     const trainingFound = trainingsExercises.find(trainingSelected => trainingSelected.id === idTraining)
 
@@ -206,6 +214,13 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
     setExercises([])
   }
 
+  useEffect(() => {
+    const trainingStorage = localStorage.getItem("@Fitness.training")
+    if (trainingStorage) {
+      setTrainingsExercises(JSON.parse(trainingStorage))
+    }
+  }, [])
+
   return (
     <TrainingContext.Provider
       value={{
@@ -218,7 +233,7 @@ export function TrainingProvider({ children }: TypePropsAccompaniment) {
         createExercisesDispatch,
         deleteExerciseDispatch,
         selectExercise,
-        addNewTrainingExercise,
+        createTrainingExercise,
         getTrainingsUser,
         startSessionTraining,
         updateTrainingSeries,
